@@ -2,8 +2,10 @@ const express = require('express'); // DO NOT DELETE
 const cors = require('cors');
 const morgan = require('morgan');
 const app = express(); // DO NOT DELETE
+const { Client } = require("pg");
 
 const database = require('./database');
+const { resetTables } = require('./database');
 
 app.use(morgan('dev'));
 app.use(cors());
@@ -29,6 +31,17 @@ app.use(cors());
 /**
  * Reset API
  */
+app.post('/reset', function (req,res) {
+    resetTables();
+        if (err) {
+            res.status(errors.SERVER_ERROR.status);
+            res.send(errors.SERVER_ERROR);
+        }
+        else{
+            res.status(200)
+            console.log(result);
+        }
+})
 
 /**
  * ========================== COMPANY =========================
@@ -40,7 +53,7 @@ app.use(cors());
 
 /**
  * Company: Update Queue
- */
+ */x
 
 /**
  * Company: Server Available
