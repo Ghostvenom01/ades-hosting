@@ -115,10 +115,116 @@ app.post('company/queue', function (req,res) {
  * Company: Update Queue
  */
 
+const error = {
+    QUEUE_NOT_FOUND: {
+        body: { error: 'Queue ID Not Found', code: 'UNKNOWN_QUEUE' },
+        status: 404,
+    },
+    INVALID_BODY: {
+        body: { error: 'Customer ID should be 10-character alphanumeric', code: 'INVALID_QUERY_STRING' },
+        status: 400,
+    },
+    CONNECTION_ERROR: {
+        body: { error: 'Unable to establish connection with database', code: 'UNEXPECTED_ERROR' },
+        status: 500,
+    }
+};
+const { Client } = require('pg');
+const { log } = require('async');
+app.put('/company/queue?queue_id=QUEUE12345', function (req, res) {
+    const client = new Client({
+        host: 'john.db.elephantsql.com',
+        port: '5432',
+        user: 'butbeajc',
+        password: 'rMQNj4puKBx13X26hwFCwZ6kelmkAqXW',
+        database: 'butbeajc',
+    });
+    client.connect();
+    const sql = ` 'Update customer_table Set customer_id = $1, where queue_id = $2'`;
+
+    if (res = ! /^[a-z0-9]+$/) throw errors.INVALID_BODY;
+    res.send(status.INVALID_BODY);
+    client
+        .query(sql, [customer_id, queue_id])
+        .then(function (response) {
+            return res.status(200).send("OK");
+            /*  if (!err) {
+                 res.status(200).send("Success");
+             } */
+
+        })
+
+        .catch(function (error) {
+            console.log(error)
+            if (!response.status) throw errors.QUEUE_NOT_FOUND
+            res.send(status.QUEUE_NOT_FOUND);
+
+        });
+},
+);
+
 /**
  * Company: Server Available
  */
 
+const error = {
+    QUEUE_NOT_FOUND: {
+        body: { error: 'Queue ID Not Found', code: 'UNKNOWN_QUEUE' },
+        status: 404,
+    },
+    INVALID_BODY: {
+        body: { error: 'Customer ID should be 10-character alphanumeric', code: 'INVALID_QUERY_STRING' },
+        status: 400,
+    },
+    CONNECTION_ERROR: {
+        body: { error: 'Unable to establish connection with database', code: 'UNEXPECTED_ERROR' },
+        status: 500,
+    }
+};
+const { Client } = require('pg');
+const { log } = require('async');
+app.put('/company/queue?queue_id=QUEUE12345', function (req, res) {
+    const client = new Client({
+        host: 'john.db.elephantsql.com',
+        port: '5432',
+        user: 'butbeajc',
+        password: 'rMQNj4puKBx13X26hwFCwZ6kelmkAqXW',
+        database: 'butbeajc',
+    });
+    client.connect();
+    const sql = ` 'select customer_table Set customer_id = $1, where queue_id = $2'`;
+
+    if (res = ! /^[a-z0-9]+$/) throw errors.INVALID_BODY;
+    res.send(status.INVALID_BODY);
+    client
+        .query(sql, [customer_id, queue_id])
+        .then(function (response) {
+            var x = sql = '`select queue_id from customer_table`'
+
+            return res.status(200).send("OK"), console.log("queue_id:" + queue_id);  
+            /*  if (!err) {
+                 res.status(200).send("Success");
+             } */
+
+        })
+        .then(function (response) {
+            
+            var x = sql = '`select customer_id from customer_table`'
+            return res.status(200).send("OK"), console.log("customer_id:" + customer_id);  
+            /*  if (!err) {
+                 res.status(200).send("Success");
+             } */
+
+        })
+
+        .catch(function (error) {
+            console.log(error)
+            if (!response.status) throw errors.QUEUE_NOT_FOUND
+            res.send(status.QUEUE_NOT_FOUND);
+
+        });
+},
+);
 /**
  * Company: Arrival Rate
  */
