@@ -4,7 +4,7 @@ const shortid = require('shortid');
 const connectionString = 'postgres://oclyoebh:EYkkYZVx_c2mhQ8Qz4w0DVWr9UMqEuaV@john.db.elephantsql.com:5432/oclyoebh'
 const pool = new Pool({
   connectionString,
-  max: 5,
+  max:5,
 })
 
 function resetTables() {
